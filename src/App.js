@@ -173,6 +173,7 @@ const NextBtn = ({ setDvData, dvHistory, currIndex, setCurrIndex }) => {
   );
 }
 
+// rand dance generator button
 const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory, currIndex, setCurrIndex }) => {
   const processClicks = () => {
     fetchDance (groupType, (newDance) => {
