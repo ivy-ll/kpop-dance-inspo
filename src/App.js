@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
+import DoublyLinkedList from './DoublyLinkedList';
 import './App.css';
 
 // footnote/credits
@@ -34,7 +35,7 @@ const IntroDesc = () => {
 
 /** GENERATED VIDEO CONTENT **/
 // fetching random dance
-const fetchDance = async (groupType, setDvData) => {
+const fetchDance = async (groupType) => {
   try {
     let route = '';
 
@@ -49,9 +50,9 @@ const fetchDance = async (groupType, setDvData) => {
     }
 
     const response = await axios.get(route);
-    setDvData(response.data);
   
     console.log('Fetched data:', response.data);
+    return response.data;
 
   } catch (err) {
     console.error('error fetching rand dance from csv file: ', err);
@@ -137,14 +138,16 @@ const ThemeBtn = ({ theme, setTheme }) => {
 }
 
 // pagination buttons
-const PrevBtn = ({ dvHistory, setDvData, currIndex, setCurrIndex }) => {
+const PrevBtn = ({ setDvData, dvHistory, setDvHistory }) => {
   const processPrev = () => {
-    if (currIndex > 0) {
-      const prevDance = dvHistory[currIndex - 1];
-      setDvData(prevDance);
-      setCurrIndex((prevIndex) => prevIndex - 1);
 
-      console.log(currIndex);
+    if (dvHistory.curr && dvHistory.curr.prev) {
+      dvHistory.goBack();
+      setDvData(dvHistory.curr ? dvHistory.curr.data : null);
+      setDvHistory(dvHistory);
+
+    } else {
+      console.log("reached end of generated dances");
     }
   };
 
@@ -155,14 +158,16 @@ const PrevBtn = ({ dvHistory, setDvData, currIndex, setCurrIndex }) => {
   );
 }
 
-const NextBtn = ({ setDvData, dvHistory, currIndex, setCurrIndex }) => {
+const NextBtn = ({ setDvData, dvHistory, setDvHistory }) => {
   const processNext = () => {
-    if (currIndex < dvHistory.length - 1) {
-      const nextDance = dvHistory[currIndex + 1];
-      setDvData(nextDance);
-      setCurrIndex((prevIndex) => prevIndex + 1);
 
-      console.log(currIndex);
+    if (dvHistory.curr && dvHistory.curr.next) {
+      dvHistory.goNext();
+      setDvData(dvHistory.curr ? dvHistory.curr.data : null);
+      setDvHistory(dvHistory);
+
+    } else {
+      console.log("reached end of generated dances");
     }
   };
 
@@ -174,25 +179,24 @@ const NextBtn = ({ setDvData, dvHistory, currIndex, setCurrIndex }) => {
 }
 
 // rand dance generator button
-const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory, currIndex, setCurrIndex }) => {
-  const processClicks = () => {
-    fetchDance (groupType, (newDance) => {
-      setDvData(newDance);
+const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory }) => {
+  const processClicks = async () => {
+    // console.log("generating rand dance");
 
-      if (numClicks === 0) {
-        setDvHistory([newDance]);
-        setCurrIndex(0);
+    const newDance = await fetchDance(groupType);
     
-      } else { 
-        // inserting new dances at place in array if user is not at end of generated dances
-        const newHist = [...dvHistory.slice(0, currIndex + 1), newDance];
-        setDvHistory(newHist);
-        setCurrIndex(currIndex + 1);
-      }
-    });
+    // console.log("New Dance:", newDance);
 
-    setNumClicks(numClicks + 1);
+    dvHistory.insertAtCurr(newDance);
+    
+    setDvData(newDance);
+    setDvHistory(dvHistory);
+    setNumClicks((prevClicks) => prevClicks + 1);
   };
+
+  useEffect(() => {
+    console.log("History after update:", dvHistory);
+  }, [dvHistory]);
 
   return (
     <div className="start-btn-container">
@@ -201,10 +205,10 @@ const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory
       </button>
     </div>
   );
-}
+};
 
 // nav bar
-const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory, currIndex, setCurrIndex }) => {
+const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory }) => {
   return (
     <div className="nav-bar-container">
       <div className="gender-filter-container">
@@ -213,7 +217,7 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
       <div className="paginination-container">
         {numClicks >= 2 && (
           <>
-            <PrevBtn setDvData={setDvData} dvHistory={dvHistory} currIndex={currIndex} setCurrIndex={setCurrIndex} />
+            <PrevBtn setDvData={setDvData} dvHistory={dvHistory} setDvHistory={setDvHistory} />
             <RandDanceBtn
             groupType={groupType}
             setDvData={setDvData}
@@ -221,10 +225,8 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
             setNumClicks={setNumClicks}
             dvHistory={dvHistory}
             setDvHistory={setDvHistory}
-            currIndex={setCurrIndex}
-            setCurrIndex={setCurrIndex}
             />
-            <NextBtn setDvData={setDvData} dvHistory={dvHistory} currIndex={currIndex} setCurrIndex={setCurrIndex} />
+            <NextBtn setDvData={setDvData} dvHistory={dvHistory} setDvHistory={setDvHistory} />
           </>
         )}
         {numClicks < 2 && (
@@ -235,8 +237,6 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
             setNumClicks={setNumClicks}
             dvHistory={dvHistory}
             setDvHistory={setDvHistory}
-            currIndex={setCurrIndex}
-            setCurrIndex={setCurrIndex}
           />
         )}
       </div>
@@ -255,8 +255,7 @@ function App() {
   const [dvData, setDvData] = useState(null);
   const [theme, setTheme] = useState('light');
   const [numClicks, setNumClicks] = useState(0);
-  const [dvHistory, setDvHistory] = useState([]);
-  const [currIndex, setCurrIndex] = useState(-1);
+  const [dvHistory, setDvHistory] = useState(new DoublyLinkedList());
 
   useEffect(() => {
     console.log('State Updated:', dvData);
@@ -291,8 +290,6 @@ function App() {
         setNumClicks={setNumClicks}
         dvHistory={dvHistory}
         setDvHistory={setDvHistory}
-        currIndex={currIndex}
-        setCurrIndex={setCurrIndex}
       />
       <Footnote />
     </div>
