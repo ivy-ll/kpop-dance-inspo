@@ -8,7 +8,7 @@ import './App.css';
 const Footnote = () => {
   return (
     <div className="footnote-container">
-      <span>this site was built using a data from <a href="https://soridata.com/">this kpop database</a></span>
+      <span>this site was built using a data from <a href="https://soridata.com/">[this kpop database]</a></span>
     </div>
   )
 }
@@ -27,7 +27,7 @@ const IntroHeader = () => {
 const IntroDesc = () => {
   return (
     <div className="intro-desc-container">
-      <span>feeling stuck and lackign inspiration for your next kpop dance to learn? search no further! click the button below to get a random dance :)</span>
+      <span>lacking inspiration for your next kpop dance to learn? search no further! click the button below to get a random dance :)</span>
     </div>
   );
 }
@@ -64,8 +64,12 @@ const fetchDance = async (groupType) => {
 const DanceTitle = ({ dvData }) => {
   return dvData ? (
     <div className="vid-title-container">
-      <span>{dvData.original_name}</span>
-      <span>{dvData.group_name}</span>
+      <div className="vid-title">
+        <h2>{dvData.original_name}</h2>
+        </div>
+      <div className="vid-artist">
+        {dvData.group_name}
+        </div>
     </div>
   ) : null;
 }
@@ -75,30 +79,23 @@ const DanceVid = ({ dvData }) => {
   return dvData ? (
     <div className="vid-player-container">
       <ReactPlayer url={`https://www.youtube.com/watch?v=${dvData.vlink}`} controls={true} />
+      <VidInfo dvData={dvData} />
+    </div>
+
+  ) : null;
+}
+
+// video info
+const VidInfo = ({ dvData }) => {
+  return dvData ? (
+    <div className="vid-info-container">
+      <div className="group-type">Group Type: {dvData.members.charAt(0).toUpperCase() + dvData.members.slice(1)}</div>
+      <div className="release-date">Release Date: {dvData.releasedate}</div>
+      <div className="vid-link"><a href={`https://www.youtube.com/watch?v=${dvData.vlink}`} target="_blank" rel="noopener noreferrer">[open on youtube]</a></div>
     </div>
   ) : null;
 }
 
-// video overlay (hover)
-const VidOverlay = ({ dvData }) => {
-  return dvData ? (
-    <div className="vid-overlay-container">
-      <span>Group Type: {dvData.members.charAt(0).toUpperCase() + dvData.members.slice(1)}</span>
-      <span>Release Date: {dvData.releasedate}</span>
-    </div>
-  ) : null;
-}
-
-// song link
-const DanceLink = ({ dvData }) => {
-  return dvData ? (
-    <div className="vid-link-container">
-      <span>
-        <a href={`https://www.youtube.com/watch?v=${dvData.vlink}`} target="_blank" rel="noopener noreferrer">open on youtube</a>
-      </span>
-    </div>
-  ) : null;
-}
 
 // display vid
 const DisplayDance = ({ dvData }) => {
@@ -106,8 +103,6 @@ const DisplayDance = ({ dvData }) => {
     <div className="all-vid-info-container">
           <DanceTitle dvData={dvData} />
           <DanceVid dvData={dvData} />
-          <VidOverlay dvData={dvData} />
-          <DanceLink dvData={dvData} />
     </div>
   )
 }
@@ -131,9 +126,7 @@ const toggleTheme = (theme, setTheme) => {
 
 const ThemeBtn = ({ theme, setTheme }) => {
   return (
-    <div className="theme-btn-container">
-      <button onClick={() => toggleTheme(theme, setTheme)} className="nav-button">Toggle Theme</button>
-    </div>
+    <button onClick={() => toggleTheme(theme, setTheme)} className="nav-button">Toggle Theme</button>
   );
 }
 
@@ -214,7 +207,7 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
       <div className="gender-filter-container">
         <GenderFilter groupType={groupType} setGroupType={setGroupType} />
       </div>
-      <div className="paginination-container">
+      <div className="pagination-container">
         {numClicks >= 2 && (
           <>
             <PrevBtn setDvData={setDvData} dvHistory={dvHistory} setDvHistory={setDvHistory} />
@@ -264,20 +257,23 @@ function App() {
 
   return (
     <div className={`App ${theme}`}>
-      {/* displaying intro section on webpage load (start button not clicked)*/}
-      {numClicks === 0 && (
-        <>
-          <IntroHeader />
-          <IntroDesc />
-        </>
-      )}
+      <div className="site-body-container">
+        <Footnote />
+        {/* displaying intro section on webpage load (start button not clicked)*/}
+        {numClicks === 0 && (
+          <>
+            <IntroHeader />
+            <IntroDesc />
+          </>
+        )}
 
-      {/* displaying video info once start button clicked*/}
-      {numClicks > 0 && (
-        <>
-          <DisplayDance dvData={dvData} />
-        </>
-      )}
+        {/* displaying video info once start button clicked*/}
+        {numClicks > 0 && (
+          <>
+            <DisplayDance dvData={dvData} />
+          </>
+        )}
+      </div>
 
       <NavBar
         groupType={groupType}
@@ -291,7 +287,7 @@ function App() {
         dvHistory={dvHistory}
         setDvHistory={setDvHistory}
       />
-      <Footnote />
+      
     </div>
   );
 }

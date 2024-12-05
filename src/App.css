@@ -1,46 +1,122 @@
-.App {
+html, body, .App {
+  height: 100%;
+  margin: 0;
   text-align: center;
 }
 
-.App.light {
-  background-color: #ffffff;
-  color: #000000;
-}
-
 .App.dark {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #22303F;
+  color: #8fbfda;
 }
 
-.navbar {
+.App.light {
+  background-color: #e5e4e2;
+  color: #2c6485;
+}
+
+div {
+  /* border: red solid 1px; */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* SITE BODY */
+.site-body-container {
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* home page */
+.intro-header-container {
+  height: 30%;
+  padding: 10% 0% 5% 0%;
+}
+
+.intro-desc-container {
+  height: 70%;
+  padding: 5% 25vw 0% 25vw;
+}
+
+/* dance vid page */
+.all-vid-info-container {
+  height: 100%;
+}
+
+.vid-title-container {
+  height: 20%;
+  gap: 0;
+  justify-content: flex-end;
+  align-content: flex-end;
+}
+
+.vid-title {
+}
+
+.vid-artist {
+}
+
+.vid-player-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70%;
+  margin: 0 auto;
+  padding-bottom: 5%;
+}
+
+
+.vid-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.5%;
+  gap: 5px;
+}
+
+
+/* NAV BAR */
+.nav-bar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
   position: fixed;
   bottom: 0;
+  z-index: 999;
+
   width: 100%;
+  height: 100px;
+
+  background-color: #394a56;
+}
+
+.toggle-theme-container,
+.gender-filter-container,
+.pagination-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 5% 0 5%;
   align-items: center;
-  background-color: #282c34;
-  padding: 10px;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.nav-dropdown {
-  flex: 1;
-  margin: 0 20px;
-  padding: 10px;
-  font-size: 16px;
+.pagination-container {
+  gap: 40px;
+  width: 20%;
 }
 
-.nav-button {
-  flex: 1;
-  margin: 0 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #61dafb;
-  border: none;
-  cursor: pointer;
-}
 
-.nav-button:hover {
-  background-color: #21a1f1;
+/* OTHER */
+.footnote-container {
+  text-align: right;
+  padding-right: 0.5%;
 }
