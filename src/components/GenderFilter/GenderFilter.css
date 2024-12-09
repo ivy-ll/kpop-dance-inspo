@@ -1,0 +1,110 @@
+.gender-filter-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.gender-filter-options > li {
+  position: relative;
+}
+
+.gender-filter-options > li > a {
+  background-color: var(--btn-color);
+  color: var(--primary-text-color);
+
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+  justify-content: space-between;
+
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: .05rem;
+
+  cursor: pointer;
+
+  width: auto;
+  height: 40px;
+}
+
+.gender-filter-options ul {
+  background-color: var(--gf-menu-color);
+
+  position: absolute;
+  left: 0;
+  width: auto;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+
+  padding: 0;
+  z-index: 999;
+
+  transform: translateY(5%); 
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out; 
+}
+
+.gender-filter-options ul.open {
+  opacity: 1;
+  height: auto;
+  transform: translateY(0);
+}
+
+.gender-filter-options ul .gender-filter-item {
+  display: flex;
+  align-items: center;
+  padding: 1.7rem;
+  text-decoration: none;
+  width: 100%;
+  gap: 3px;
+  margin-left: -10px;
+  font-weight: bold;
+
+  color: var(--btn-hover-text-color);
+  background-color: var(--btn-hover-color);
+}
+
+.gender-filter-options ul .gender-filter-item:hover {
+  background-color: var(--gf-select-color);
+}
+
+.gender-filter-options ul .gender-filter-item .filter-icon {
+  font-size: 1.3rem;
+}
+
+.selected {
+  background-color: var(--gf-select-color);
+}
+
+.filter-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.gender-filter-options ul a {
+  display: block;
+}
+
+.gender-filter-options > li > a:hover {
+  color: var(--btn-hover-text-color);
+  background-color: var(--btn-hover-color);
+  box-shadow: 0 0 0.2rem var(--btn-hover-color);
+}
+
+.gender-filter-options li ul {
+  top: -230px;
+}
+
+
+.gender-filter-options > li > a:hover,
+.gender-filter-options ul .gender-filter-item:hover,
+.gender-filter-options ul .gender-filter-item {
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 0.65s ease;
+}

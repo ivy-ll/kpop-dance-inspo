@@ -29,7 +29,7 @@ class DoublyLinkedList {
   goNext() {
     if (this.curr && this.curr.next) {
       this.curr = this.curr.next;
-      console.log("Current (forward):", this.curr.data);
+;
     } else {
       console.log("No next node or reached the end.");
     }
@@ -38,7 +38,7 @@ class DoublyLinkedList {
   goBack() {
     if (this.curr && this.curr.prev) {
       this.curr = this.curr.prev;
-      console.log("Current (backward):", this.curr.data);
+
     } else {
       console.log("No previous node or reached the start.");
     }
@@ -60,7 +60,6 @@ class DoublyLinkedList {
       this.curr = newNode;
     }
 
-    console.log("Inserted at current position:", data);
   }
 
   printList() {

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
 import DoublyLinkedList from './DoublyLinkedList';
+import { Toggle } from "./components/ToggleTheme/Toggle";
+import GenderFilter from './components/GenderFilter/GenderFilter';
 import './App.css';
 
 // footnote/credits
@@ -91,7 +93,7 @@ const VidInfo = ({ dvData }) => {
     <div className="vid-info-container">
       <div className="group-type">Group Type: {dvData.members.charAt(0).toUpperCase() + dvData.members.slice(1)}</div>
       <div className="release-date">Release Date: {dvData.releasedate}</div>
-      <div className="vid-link"><a href={`https://www.youtube.com/watch?v=${dvData.vlink}`} target="_blank" rel="noopener noreferrer">[open on youtube]</a></div>
+      <div><a href={`https://www.youtube.com/watch?v=${dvData.vlink}`} target="_blank" rel="noopener noreferrer" className="vid-link">[open on youtube]</a></div>
     </div>
   ) : null;
 }
@@ -108,28 +110,6 @@ const DisplayDance = ({ dvData }) => {
 }
 
 /** NAV BAR CONTENT **/
-// gender filter
-const GenderFilter = ({ groupType, setGroupType }) => {
-  return (
-  <select value={groupType} onChange={(e) => setGroupType(e.target.value)} className="nav-dropdown">
-    <option value="all">All</option>
-    <option value="gg">Girl Group</option>
-    <option value="bg">Boy Group</option>
-  </select>
-  );
-}
-
-// light/dark mode
-const toggleTheme = (theme, setTheme) => {
-  setTheme(theme === 'light' ? 'dark' : 'light');
-}
-
-const ThemeBtn = ({ theme, setTheme }) => {
-  return (
-    <button onClick={() => toggleTheme(theme, setTheme)} className="nav-button">Toggle Theme</button>
-  );
-}
-
 // pagination buttons
 const PrevBtn = ({ setDvData, dvHistory, setDvHistory }) => {
   const processPrev = () => {
@@ -193,7 +173,7 @@ const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory
 
   return (
     <div className="start-btn-container">
-      <button onClick={processClicks} className="start-btn">
+      <button onClick={processClicks} className="generate-btn">
         {numClicks === 0 ? 'get random dance' : 'give me another dance'}
       </button>
     </div>
@@ -201,10 +181,10 @@ const RandDanceBtn = ({ groupType, setDvData, numClicks, setNumClicks, dvHistory
 };
 
 // nav bar
-const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory }) => {
+const NavBar = ({ groupType, setGroupType, setDvData, numClicks, setNumClicks, dvHistory, setDvHistory, isDark, setIsDark, handleThemeToggle }) => {
   return (
     <div className="nav-bar-container">
-      <div className="gender-filter-container">
+      <div className="gf-container">
         <GenderFilter groupType={groupType} setGroupType={setGroupType} />
       </div>
       <div className="pagination-container">
@@ -233,9 +213,11 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
           />
         )}
       </div>
-      <div className="toggle-theme-container">
-        <ThemeBtn theme={theme} setTheme={setTheme} />
-      </div> 
+      <div className="tt-container">
+        <Toggle 
+          handleChange={() => setIsDark(!isDark)}
+        />
+      </div>
     </div>
   );
 }
@@ -246,17 +228,27 @@ const NavBar = ({ groupType, setGroupType, theme, setTheme, setDvData, numClicks
 function App() {
   const [groupType, setGroupType] = useState('all');
   const [dvData, setDvData] = useState(null);
-  const [theme, setTheme] = useState('light');
   const [numClicks, setNumClicks] = useState(0);
   const [dvHistory, setDvHistory] = useState(new DoublyLinkedList());
+
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     console.log('State Updated:', dvData);
   }, [dvData]);
 
+  const handleThemeToggle = () => {
+    setIsDark((prevIsDark) => !prevIsDark);
+  };
+
+  useEffect(() => {
+    const theme = isDark ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [isDark]);
+
 
   return (
-    <div className={`App ${theme}`}>
+    <div className="App" data-theme={isDark ? "dark" : "light"}>
       <div className="site-body-container">
         <Footnote />
         {/* displaying intro section on webpage load (start button not clicked)*/}
@@ -278,14 +270,15 @@ function App() {
       <NavBar
         groupType={groupType}
         setGroupType={setGroupType}
-        theme={theme}
-        setTheme={setTheme}
         fetchDance={fetchDance}
         setDvData={setDvData}
         numClicks={numClicks}
         setNumClicks={setNumClicks}
         dvHistory={dvHistory}
         setDvHistory={setDvHistory}
+        isDark={isDark} 
+        setIsDark={setIsDark}
+        handleThemeToggle={handleThemeToggle}
       />
       
     </div>
