@@ -26,7 +26,8 @@
 
 button,
 .nav-bar-container,
-.site-body-container {
+.site-body-container,
+.db-link {
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -211,4 +212,14 @@ button:hover {
   padding-right: 0.5%;
 
   color: var(--primary-text-color);
+}
+
+.db-link {
+  text-decoration: none;
+  color: var(--primary-text-color);
+}
+
+.db-link:hover {
+  color: var(--secondary-text-color);
+  text-shadow: 0.05vw 0.05vw var(--primary-text-color);
 }
