@@ -1,1 +1,0 @@
-web: npm run build --prefix frontend && gunicorn api/app.py
