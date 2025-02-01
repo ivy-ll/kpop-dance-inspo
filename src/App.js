@@ -40,7 +40,7 @@ const IntroDesc = () => {
 const fetchDance = async (groupType) => {
   try {
     let route = '';
-    const apiUrl = 'web-production-dbb3.up.railway.app';
+    const apiUrl = 'flask-production-e3ff.up.railway.app';
 
     if (groupType === 'gg') {
       route = `${apiUrl}/api/getRandDanceGG`;
