@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -6,9 +6,10 @@ import os
 
 
 app = Flask(__name__)
-CORS(app, origins=["https://ivy-ll.github.io", "http://localhost:3000"])
 
-app.config['SERVER_NAME'] = 'kpop-dance-inspo-production.up.railway.app'
+CORS(app, origins=["https://your-frontend-url.railway.app", "http://localhost:3000"])
+
+
 
 def get_rand_dance(file_path):
     if not os.path.exists(file_path):
