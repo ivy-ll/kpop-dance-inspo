@@ -9,7 +9,7 @@
   position: relative;
 }
 
-.gender-filter-options > li > a {
+.gender-filter-options > li > button {
   background-color: var(--btn-color);
   color: var(--primary-text-color);
 
@@ -28,7 +28,7 @@
   cursor: pointer;
 
   width: auto;
-  height: 40px;
+  height: 57px;
 }
 
 .gender-filter-options ul {
@@ -85,11 +85,11 @@
   margin-right: 10px;
 }
 
-.gender-filter-options ul a {
+.gender-filter-options ul button {
   display: block;
 }
 
-.gender-filter-options > li > a:hover {
+.gender-filter-options > li > button:hover {
   color: var(--btn-hover-text-color);
   background-color: var(--btn-hover-color);
   box-shadow: 0 0 0.2rem var(--btn-hover-color);
@@ -100,7 +100,7 @@
 }
 
 
-.gender-filter-options > li > a:hover,
+.gender-filter-options > li > button:hover,
 .gender-filter-options ul .gender-filter-item:hover,
 .gender-filter-options ul .gender-filter-item {
   -webkit-transition: all 1s ease;

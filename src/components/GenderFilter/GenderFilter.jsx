@@ -53,12 +53,12 @@ const GenderFilter = ({ groupType, setGroupType }) => {
     <div className="gender-filter-container">
       <ul className="gender-filter-options">
         <li className="gender-filter-toggle">
-          <a href="#" onClick={handleToggleClick}>
+          <button type="button" onClick={handleToggleClick}>
             <IconContext.Provider value={{ className:"filter-icon"}}>
             {getFilterIcon()} {/* based on selected filter */}
             </IconContext.Provider>
             group type
-          </a>
+          </button>
           <ul className={isOpen ? 'open' : ''}>
             {options.map(option => (
               <li
