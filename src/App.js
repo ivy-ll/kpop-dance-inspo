@@ -43,13 +43,13 @@ const fetchDance = async (groupType) => {
     const apiUrl = 'web-production-dbb3.up.railway.app';
 
     if (groupType === 'gg') {
-      route = '${apiUrl}/api/getRandDanceGG';
+      route = `${apiUrl}/api/getRandDanceGG`;
 
     } else if (groupType === 'bg') {
-      route = '${apiUrl}/api/getRandDanceBG';
+      route = `${apiUrl}/api/getRandDanceBG`;
       
     } else {
-      route = '${apiUrl}/api/getRandDanceAll';
+      route = `${apiUrl}/api/getRandDanceAll`;
     }
 
     const response = await axios.get(route);
