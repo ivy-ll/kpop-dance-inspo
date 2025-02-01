@@ -10,7 +10,7 @@ import './App.css';
 const Footnote = () => {
   return (
     <div className="footnote-container">
-      <span>this site was built using a data from <a href="https://soridata.com/" target="_blank" className="db-link">[this kpop database]</a></span>
+      <span>this site was built using a data from <a href="https://soridata.com/" target="_blank" rel="noopener noreferrer" className="db-link">[this kpop database]</a></span>
     </div>
   )
 }
