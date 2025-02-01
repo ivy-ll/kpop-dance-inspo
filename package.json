@@ -45,7 +45,7 @@
   "proxy": "http://127.0.0.1:5000",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "gh-pages": "^6.2.0"
+    "gh-pages": "^6.3.0"
   },
   "homepage": "https://ivy-ll.github.io/kpop-dance-inspo"
 }
