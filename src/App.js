@@ -40,15 +40,16 @@ const IntroDesc = () => {
 const fetchDance = async (groupType) => {
   try {
     let route = '';
+    const apiUrl = 'web-production-dbb3.up.railway.app';
 
     if (groupType === 'gg') {
-      route = 'api/getRandDanceGG';
+      route = '${apiUrl}/api/getRandDanceGG';
 
     } else if (groupType === 'bg') {
-      route = 'api/getRandDanceBG';
+      route = '${apiUrl}/api/getRandDanceBG';
       
     } else {
-      route = 'api/getRandDanceAll';
+      route = '${apiUrl}/api/getRandDanceAll';
     }
 
     const response = await axios.get(route);
