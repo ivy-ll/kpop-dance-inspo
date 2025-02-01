@@ -6,7 +6,8 @@ import os
 
 
 app = Flask(__name__)
-CORS(app, origins=["https://your-frontend-url.railway.app"])
+CORS(app, origins=["https://ivy-ll.github.io/kpop-dance-inspo/"])
+
 
 def get_rand_dance(file_path):
     if not os.path.exists(file_path):
