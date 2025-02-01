@@ -1,9 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import pandas as pd
 import os
 
-app = Flask(__name__)
 
+
+app = Flask(__name__)
+CORS(app, origins=["https://your-frontend-url.railway.app"])
 
 def get_rand_dance(file_path):
     if not os.path.exists(file_path):
@@ -54,4 +57,4 @@ def get_dance_bg():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
