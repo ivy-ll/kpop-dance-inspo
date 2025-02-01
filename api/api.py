@@ -8,6 +8,8 @@ import os
 app = Flask(__name__)
 CORS(app, origins=["https://ivy-ll.github.io", "http://localhost:3000"])
 
+app.config['SERVER_NAME'] = 'kpop-dance-inspo-production.up.railway.app'
+
 def get_rand_dance(file_path):
     if not os.path.exists(file_path):
         return {"error": "File not found"}, 404
