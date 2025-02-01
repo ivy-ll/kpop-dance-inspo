@@ -40,7 +40,7 @@ const IntroDesc = () => {
 const fetchDance = async (groupType) => {
   try {
     let route = '';
-    const apiUrl = 'https://kpop-dance-inspo-production.up.railway.app/';
+    const apiUrl = 'https://kpop-dance-inspo-production.up.railway.app';
 
     if (groupType === 'gg') {
       route = `${apiUrl}/api/getRandDanceGG`;
